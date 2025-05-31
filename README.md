@@ -20,7 +20,7 @@ It is built for developers, researchers, and automation enthusiasts who need a f
 ---
 
 
-## Installation
+## 📦 Installation
 
 
 ### Using Github
@@ -34,7 +34,7 @@ gsearchpy
 ```
 
 
-## Example Usage
+## 📦 Example Usage
 
 ### For raw data response 
 ```
