@@ -24,7 +24,7 @@ setup(
     python_requires='>=3.6',
     entry_points={
         'console_scripts': [
-            'seleniumbase = gsearchpy.google:create_cookies',
+            'gsearchpy = gsearchpy.cli:main',
         ],
     },
 )

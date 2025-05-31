@@ -43,7 +43,7 @@ results = google_search(query)
 from gsearchpy.google import google_search, filter_google_search_data
 
 query = "best VSCode extensions for productivity"
-results = google_search(query)
+html = google_search(query)
 data = filter_google_search_data(html)
 print(data)
 ```
