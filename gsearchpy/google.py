@@ -117,7 +117,7 @@ def create_cookies():
             with open(cookies_path, "w") as f:
                 json.dump(cookies, f, indent=4)
 
-            print("Cookies saved to cookies.json")
+            # print("Cookies saved to cookies.json")
 
         except Exception as e:
             traceback.print_exc()

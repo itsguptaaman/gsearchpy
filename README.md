@@ -28,6 +28,12 @@ It is built for developers, researchers, and automation enthusiasts who need a f
 pip install git+https://@github.com/itsguptaaman/gsearchpy.git
 ```
 
+### After Installation run this command to setup the drivers and dependency
+```
+gsearchpy
+```
+
+
 ## Example Usage
 
 ### For raw data response 
