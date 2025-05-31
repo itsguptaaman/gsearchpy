@@ -22,6 +22,9 @@ It is built for developers, researchers, and automation enthusiasts who need a f
 
 ## 📦 Installation
 
+```
+pip install gsearchpy
+```
 
 ### Using Github
 ```
