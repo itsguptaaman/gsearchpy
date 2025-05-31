@@ -1,0 +1,21 @@
+cookies.json
+downloaded_files
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Virtual environments
+venv/
+.env/
+
+# IDE files
+.vscode/
+.idea/
