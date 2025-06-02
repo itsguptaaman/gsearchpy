@@ -3,12 +3,15 @@ import os
 import time
 import json
 import random
+import string
+import re
 import traceback
 
 from seleniumbase import SB
 from user_agent import generate_user_agent
 from curl_cffi import requests
 from bs4 import BeautifulSoup
+import urllib
 
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -359,3 +362,109 @@ def filter_google_search_data(html):
     return {"data": final_data}
 
 
+
+def google_search_v2(query, page_number=1, num=15, gl="in", tbm="lcl", tbs="0", hl="en",  **kwargs):
+    
+    def random_string(length=10):
+        return ''.join(random.choices(string.ascii_lowercase + string.digits, k=length))
+
+    page_number = page_number - 1
+    start_index = page_number * num
+
+    params = {
+        "sca_esv": random_string(16),
+        "hl": hl,
+        "gl": gl,
+        "tbm": tbm,
+        "sxsrf": random_string(64) + ":" + str(random.randint(1000000000000, 9999999999999)),
+        "q": query,
+        "rflfq": str(random.randint(1, 10)),
+        "num": str(num),
+        "start": str(start_index),
+        "sa": random.choice(["X", "Y", "Z"]),
+        "ved": random_string(50),
+        "biw": str(random.randint(800, 2000)),
+        "bih": str(random.randint(600, 1200)),
+        "dpr": round(random.uniform(1.0, 2.0), 2),
+        "tbs": random_string(20),
+        "lf": str(random.choice([1, 2, 3])),
+        "lf_ui": str(random.choice([5, 6, 7, 8, 9])),
+    }
+
+    params.update(kwargs)
+
+    encoded_params = urllib.parse.urlencode(params)
+    url = f"https://www.google.com/search?{encoded_params}"
+    headers = get_header()
+
+    res = requests.get(url, headers=headers, impersonate="chrome101")
+    if res.status_code != 200:
+        return None
+    return res.text
+
+
+def extract_box_data(box):
+    data = {}
+    div = box.find('div', {'class': 'VkpGBb'})
+    if not div:
+        return data
+    
+    part_one = div.find('div', {'class': 'cXedhc'})
+    title_data = part_one.find('span', {'class': 'OSrXXb'})
+    title = title_data.text if title_data else None
+    if title:
+        data.update({'title': title})
+
+    rating_data = part_one.find('span', {'class': 'Y0A0hc'})
+    review_rating = rating_data.text if rating_data else None
+    if review_rating:
+        rating, reviews_count= review_rating.split('(')
+        data.update({'rating': rating})
+        reviews_count = reviews_count.replace(')', '')
+        data.update({'reviews_count': reviews_count})
+
+    raw_data = part_one.text
+    pattern = r"(?:\+?\d{1,3}[-.\s]?)?(?:\(?\d{3,4}\)?[-.\s]?)?\d{3,4}[-.\s]?\d{4}"
+    numbers = re.findall(pattern, raw_data)
+    if numbers:
+        data.update({'phone numbers': numbers})
+
+    data.update({"raw_data": raw_data})
+
+    a_tags = div.find_all('a')
+    a_tags = [a.get('href') for a in a_tags if a.get('href')]
+    
+    maps_link = None
+    link = None
+
+    if len(a_tags) == 1:
+        if "maps" in a_tags[0]:
+            maps_link = a_tags[0]
+    elif len(a_tags) == 2:
+        for tag in a_tags:
+            if "maps" in tag:
+                maps_link = tag
+            else:
+                link = tag
+
+    if maps_link:
+        data["map_link"] = 'https://www.google.com/' + maps_link
+    if link:
+        data["link"] = link
+        
+    return data
+
+
+def extract_bussiness_data(html):
+    soup = BeautifulSoup(html, 'lxml')
+    data = soup.find('div', {'jscontroller': 'EfJGEe'})
+    if not data:
+        return {"error": "bussiness data is empty"}
+    containers = soup.find_all('div', {'jscontroller': 'AtSb'})
+    final_data = []
+    for box in containers:
+        dt = extract_box_data(box)
+        if dt:
+            final_data.append(dt)
+    
+    return {"data": final_data}

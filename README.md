@@ -57,5 +57,19 @@ data = filter_google_search_data(html)
 print(data)
 ```
 
+### To get google maps data or any other data use tbm paramter
+```
+from gsearchpy.google import google_search
 
+query = "best VSCode extensions for productivity"
+results = google_search(query, tbm='lcl')
+cleaned_data =extract_bussiness_data(results)
+```
+
+# Also you can use v2 except for google search you can use this for lcl, images, news, and etc.
+```
+from gsearchpy.google import google_search
+results = google_search_v2("plumbers", page_number=2, gl="ahemdabad")
+cleaned_data =extract_bussiness_data(results)
+```
 
