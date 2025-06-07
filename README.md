@@ -41,7 +41,7 @@ gsearchpy
 
 ### For raw data response 
 ```
-from gsearchpy.google import GoogleScraper
+from gsearchpy import GoogleScraper
 
 scraper = GoogleScraper()
 html = scraper.google_search(query)
@@ -49,7 +49,7 @@ html = scraper.google_search(query)
 
 ### For clean data
 ```
-from gsearchpy.google import GoogleScraper
+from gsearchpy import GoogleScraper
 
 query = "best VSCode extensions for productivity"
 scraper = GoogleScraper()
@@ -59,7 +59,7 @@ print(scraper.google_search_clean_data(html))
 
 ### To get google maps data or any other data use tbm paramter
 ```
-from gsearchpy.google import GoogleScraper
+from gsearchpy import GoogleScraper
 
 google = GoogleScraper()
 query = "coffee shop in dubai"
@@ -69,7 +69,7 @@ print(google.local_search_clean_data(html))
 
 # Also you can use v2 except for google search you can use this for lcl, images, news, and etc.
 ```
-from gsearchpy.google import GoogleScraper
+from gsearchpy import GoogleScraper
 
 google = GoogleScraper()
 query = "coffee shop in dubai"
