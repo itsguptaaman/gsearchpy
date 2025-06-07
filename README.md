@@ -41,35 +41,39 @@ gsearchpy
 
 ### For raw data response 
 ```
-from gsearchpy.google import google_search
+from gsearchpy.google import GoogleScraper
 
-query = "best VSCode extensions for productivity"
-results = google_search(query)
+scraper = GoogleScraper()
+html = scraper.google_search(query)
 ```
 
 ### For clean data
 ```
-from gsearchpy.google import google_search, filter_google_search_data
+from gsearchpy.google import GoogleScraper
 
 query = "best VSCode extensions for productivity"
-html = google_search(query)
-data = filter_google_search_data(html)
-print(data)
+scraper = GoogleScraper()
+html = scraper.google_search(query)
+print(scraper.google_search_clean_data(html))
 ```
 
 ### To get google maps data or any other data use tbm paramter
 ```
-from gsearchpy.google import google_search
+from gsearchpy.google import GoogleScraper
 
-query = "best VSCode extensions for productivity"
-results = google_search(query, tbm='lcl')
-cleaned_data =extract_bussiness_data(results)
+google = GoogleScraper()
+query = "coffee shop in dubai"
+html = google.google_search(query, tbm="lcl")
+print(google.local_search_clean_data(html))
 ```
 
 # Also you can use v2 except for google search you can use this for lcl, images, news, and etc.
 ```
-from gsearchpy.google import google_search
-results = google_search_v2("plumbers", page_number=2, gl="ahemdabad")
-cleaned_data =extract_bussiness_data(results)
+from gsearchpy.google import GoogleScraper
+
+google = GoogleScraper()
+query = "coffee shop in dubai"
+html = google.google_search_v2("plumbers", page_number=2, gl="ahemdabad")
+print(google.local_search_clean_data(html))
 ```
 
