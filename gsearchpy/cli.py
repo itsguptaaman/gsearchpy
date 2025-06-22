@@ -1,5 +1,8 @@
-from gsearchpy.google import create_cookies
+from gsearchpy import GoogleScraper
+
 
 def main():
     print("[+] Starting cookie creation...")
-    create_cookies()
+    query = "best VSCode extensions for productivity"
+    scraper = GoogleScraper()
+    html = scraper.google_search(query)
